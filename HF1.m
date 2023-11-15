@@ -26,8 +26,10 @@ fgv_nap = @ (T) -B_lin * T + log(A_lin);
 fgv_H_lin = @ (T) Hmax ./(1 + A_lin * exp(-B_lin*T));
 fgv_H_nlin = @ (T) Hmax ./(1 + A_nlin * exp(-B_nlin*T));
 
-H1 = fgv_H_nlin(t1)
-
+%Szamitasok
+H1 = fgv_H_nlin(t1);
+H2 = 150; %cm
+t2 = (log(A_nlin)- log( Hmax/H2 - 1))./B_nlin
 
 %Abrazolas
 figure('Name', 'Egyenes illesztese');
@@ -40,10 +42,13 @@ legend('gyakorlati adatok', 'linearis illesztes');
 
 figure('Name', 'Gorbe illesztese');
 hold('on');
-plot(t, H, 'ob');
-plot(t1, H1, '^k');
-fplot( fgv_H_lin, t_intv, 'r');
-fplot( fgv_H_nlin, t_intv, 'g');
+plot(t, H, 'o');
+plot(t1, H1, '^', 'Color', "#A2142F");
+plot(t2, H2, 'sb');
+plot([0,t2 ], [H2, H2 ], '--', 'Color', "#EDB120");
+plot([t2,t2 ], [0, H2 ], '--', 'Color', "#EDB120");
+fplot( fgv_H_lin, t_intv, 'Color', "#D95319");
+fplot( fgv_H_nlin, t_intv, 'Color', "#77AC30");
 hold( 'off');
 xlabel( 't(nap)'); ylabel( 'H(cm)');
 legend('gyakorlati adatok', 'megadott ertekekre ','linearis illesztes', 'nemlinearis illesztes', 'Location', 'southeast');
